@@ -27,6 +27,8 @@ import java.util.Map;
 
 public class MaskedItem implements Serializable, Cloneable {
 
+    private static final long serialVersionUID = 247478674373724255L;
+
     private int itemId;
     private int quantity;
     private short durability;
