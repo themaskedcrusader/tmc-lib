@@ -16,9 +16,12 @@
 
 package com.themaskedcrusader.bukkit.chest;
 
+import com.avaje.ebean.text.json.JsonContext;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -27,7 +30,7 @@ import java.util.Map;
 
 public class MaskedItem implements Serializable, Cloneable {
 
-    private static final long serialVersionUID = 247478674373724255L;
+    private static final long serialVersionUID = 247478674377242550L;
 
     private int itemId;
     private int quantity;
@@ -35,6 +38,8 @@ public class MaskedItem implements Serializable, Cloneable {
     private byte data;
     private List<String> lore;
     private String displayName;
+
+    private String playerName;
 
     private static final String PIPE = "|";
 
@@ -70,6 +75,10 @@ public class MaskedItem implements Serializable, Cloneable {
         this.displayName = item.getItemMeta().getDisplayName();
         this.lore = item.getItemMeta().getLore();
         maskEnchantments(item);
+
+        if (item.getType() == Material.SKULL_ITEM) {
+            playerName = ((SkullMeta) item.getItemMeta()).getOwner();
+        }
     }
 
     private void maskEnchantments(ItemStack item) {
@@ -91,11 +100,21 @@ public class MaskedItem implements Serializable, Cloneable {
             item.addUnsafeEnchantments(map);
         }
 
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(displayName);
-        meta.setLore(lore);
-        item.setItemMeta(meta);
+        if (item.getType() == Material.SKULL_ITEM) {
+            if (playerName != null && !"".equals(playerName)) {
+                SkullMeta skullMeta = (SkullMeta) item.getItemMeta();
+                skullMeta.setOwner(playerName);
+                skullMeta.setDisplayName(playerName + "'s head");
+                item.setItemMeta(skullMeta);
+            }
 
+        } else {
+            ItemMeta meta = item.getItemMeta();
+            meta.setDisplayName(displayName);
+            meta.setLore(lore);
+            item.setItemMeta(meta);
+
+        }
         return item;
     }
 
@@ -162,5 +181,14 @@ public class MaskedItem implements Serializable, Cloneable {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+        this.data = (byte) 3;
     }
 }

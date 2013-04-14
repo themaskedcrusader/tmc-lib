@@ -31,9 +31,10 @@ public class StringUtils {
 
     public static String capitalize(String in) {
         if (!"".equals(removeNull(in))) {
-            String first = in.substring(0,1);
+            String first = in.substring(0,1).toUpperCase();
             return first + in.substring(1).toLowerCase();
         }
         return null;
     }
+
 }
