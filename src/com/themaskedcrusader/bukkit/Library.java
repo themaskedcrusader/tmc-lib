@@ -24,7 +24,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 public class Library {
-    public static final double version = 1.7;
+    public static final double version = 2.0;
 
     public static void checkForNewVersion(ConsoleCommandSender notify) {
         String currentVersion = readCurrentVersion();
