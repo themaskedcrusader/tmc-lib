@@ -21,6 +21,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.material.MaterialData;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -31,7 +32,7 @@ public class MaskedItem implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 247478674377242550L;
 
-    private int itemId;
+    private String itemType;
     private int quantity;
     private short durability;
     private byte data;
@@ -42,7 +43,7 @@ public class MaskedItem implements Serializable, Cloneable {
 
     private static final String PIPE = "|";
 
-    private HashMap<Integer, Integer> enchantments;
+    private HashMap<String, Integer> enchantments;
 
     public MaskedItem(String tmcItemFormatString) {
         String[] itemData = tmcItemFormatString.split("\\|");
@@ -54,7 +55,7 @@ public class MaskedItem implements Serializable, Cloneable {
             case 2:
                 quantity = Integer.parseInt(itemData[1]);
             case 1:
-                itemId = Integer.parseInt(itemData[0]);
+                itemType = itemData[0];
         }
     }
 
@@ -63,10 +64,11 @@ public class MaskedItem implements Serializable, Cloneable {
     }
 
     public void mask(ItemStack item) {
-        this.itemId = item.getTypeId();
+        this.itemType = item.getType().name();
         this.quantity = item.getAmount();
         this.durability = item.getDurability();
         if (durability == 0) {
+            // There isn't a way to do this the new way. Don't deprecate until there is another way to do it!
             this.data = item.getData().getData();
         } else {
             this.data = 0;
@@ -81,20 +83,20 @@ public class MaskedItem implements Serializable, Cloneable {
     }
 
     private void maskEnchantments(ItemStack item) {
-        this.enchantments = new HashMap<Integer, Integer>();
+        this.enchantments = new HashMap<String, Integer>();
         Map<Enchantment, Integer> toWrap = item.getEnchantments();
         for(Enchantment enchantment : toWrap.keySet()) {
-            enchantments.put(enchantment.getId(), toWrap.get(enchantment));
+            enchantments.put(enchantment.getName(), toWrap.get(enchantment));
         }
     }
 
     public ItemStack unmask() {
-        ItemStack item = new ItemStack(itemId, quantity, durability != 0 ? durability : (short) data);
+        ItemStack item = new ItemStack(Material.getMaterial(itemType), quantity, durability != 0 ? durability : (short) data);
 
         if (enchantments != null) {
             HashMap<Enchantment, Integer> map = new HashMap<Enchantment, Integer>();
-            for(Map.Entry<Integer, Integer> enchantment : enchantments.entrySet()) {
-                map.put(Enchantment.getById(enchantment.getKey()), enchantment.getValue());
+            for(Map.Entry<String, Integer> enchantment : enchantments.entrySet()) {
+                map.put(Enchantment.getByName(enchantment.getKey()), enchantment.getValue());
             }
             item.addUnsafeEnchantments(map);
         }
@@ -118,7 +120,7 @@ public class MaskedItem implements Serializable, Cloneable {
     }
 
     public String toString() {
-        String toReturn = itemId + PIPE  + quantity + PIPE;
+        String toReturn = itemType + PIPE  + quantity + PIPE;
 
         if (data > 0) {
             toReturn += data + PIPE;
@@ -134,12 +136,12 @@ public class MaskedItem implements Serializable, Cloneable {
         return toReturn;
     }
 
-    public int getItemId() {
-        return itemId;
+    public String getItemType() {
+        return itemType;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
     }
 
     public int getQuantity() {
