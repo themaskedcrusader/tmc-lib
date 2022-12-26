@@ -1,0 +1,9 @@
+name: tmc-lib
+main: me.schalk.spigot.lib.Plugin
+version: 1.0-indev
+description: Common functionality for all TMC plugins
+author: Chris Schalk - The Masked Crusader
+website: coming soon
+
+load: STARTUP
+api-version: 1.19
