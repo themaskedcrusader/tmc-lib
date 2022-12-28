@@ -151,7 +151,7 @@ class MaskedItem : Serializable, Cloneable {
 
     private fun unmaskEnchantments(item: ItemStack) {
         for (enchantment in enchantments) {
-            // TODO: enchantmentNamespace should be a plugin, so add something to ConfigAccessor to get Plugin By Name
+            // TODO: enchantmentNamespace should be a plugin, so add something to me.schalk.spigot.lib.config.ConfigAccessor to get Plugin By Name
             val enchantmentNamespace = enchantment.key.split(_enchantment_namespace_delimiter)[0]
             val enchantmentUnderlyingName = enchantment.key.split(_enchantment_namespace_delimiter)[1]
             // This is Deprecated because it should be NamespacedKey(Plugin, enchantmentUnderlying) : TODO get working

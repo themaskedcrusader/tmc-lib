@@ -4,16 +4,15 @@ Tasks:
         * MaskedItem - Minecraft Item to Simple String for use in Config Files - Done
         * SmartChest - Chest + Contents in game to Smart memory object - Done
     * Config Package
-        * ConfigAccessor - Simple routines to read configurations from config files
-        * Messages - Static version of SaveFile
-        * SaveFile - Factory for writing and deleting config files
-        * Settings - Static version of SaveFile for accessing "settings.yml"
+        * me.schalk.spigot.lib.config.ConfigAccessor - Simple routines to read configurations from config files
+        * SaveFile - Factory for writing and deleting config files - Done
+        * Settings - Static accessor for settings.yml - Done
+        * Messages - Static accessor for messages.yml - Done
     * Serializer
         * Serializer - Free functions to convert minecraft data to usable data for my plugins - Done
     * Util
-        * InventoryUtils - Utils to add MaskedItems to a players live inventory
-        * StringUtils - Helpful functions that String should have
-        * TMC - Enum of chat colors for messages to the console
-        * WorldUtils - Utils to access world information
+        * InventoryUtils - Utils to add MaskedItems to a players live inventory - Done
+        * TMC - Chat colors for messages to the console - Done
+        * WorldUtils - Utils to access world information - Done
     * Math
-        * Random - Free functions to generate a possibility that something will happen
+        * Random - Free functions to generate a possibility that something will happen - Done
