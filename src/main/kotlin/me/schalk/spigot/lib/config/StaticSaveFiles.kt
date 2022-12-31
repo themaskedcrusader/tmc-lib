@@ -24,8 +24,6 @@ package me.schalk.spigot.lib.config
 
 import org.bukkit.plugin.java.JavaPlugin
 
-
-
 private var settings : SaveFile? = null
 
 fun initSettings(plugin: JavaPlugin) : SaveFile {
@@ -37,7 +35,7 @@ fun initSettings(plugin: JavaPlugin) : SaveFile {
     return settings!!
 }
 
-fun Settings(plugin: JavaPlugin) : SaveFile {
+fun getSettings() : SaveFile {
     return settings!!
 }
 
@@ -45,13 +43,13 @@ private var messages : SaveFile? = null
 
 fun initMessages(plugin: JavaPlugin) : SaveFile {
     if (messages == null) {
-        messages = SaveFile(plugin, "settings.yml")
+        messages = SaveFile(plugin, "messages.yml")
         messages!!.get().reloadConfig()
         messages!!.get().saveDefaultConfig()
     }
     return messages!!
 }
 
-fun Messages(plugin: JavaPlugin) : SaveFile {
-    return settings!!
+fun getMessages() : SaveFile {
+    return messages!!
 }

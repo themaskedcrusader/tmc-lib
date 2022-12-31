@@ -22,14 +22,12 @@
 
 package me.schalk.spigot.lib
 
-import me.schalk.spigot.lib.capture.ClientWorker
 import org.bukkit.plugin.java.JavaPlugin
 
 class Plugin : JavaPlugin() {
     override fun onEnable() {
         if (javaVersionCompatible()) {
             super.onEnable()
-            ClientWorker(this)
         }
     }
 }
