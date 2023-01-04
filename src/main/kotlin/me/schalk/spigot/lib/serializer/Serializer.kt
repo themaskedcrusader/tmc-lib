@@ -30,8 +30,8 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
 
 
-fun serializeLocation(location: Location): Map<String, Any> {
-    val toReturn = HashMap<String, Any>()
+fun serializeLocation(location: Location): MutableMap<String?, Any> {
+    val toReturn = mutableMapOf<String?, Any>()
     toReturn["world"] = location.world!!.name
     toReturn["x"] = location.blockX
     toReturn["y"] = location.blockY
@@ -39,7 +39,7 @@ fun serializeLocation(location: Location): Map<String, Any> {
     return toReturn
 }
 
-fun deserializeLocation(loc: Map<String?, Any>): Location {
+fun deserializeLocation(loc: MutableMap<String?, Any>): Location {
     val world = Bukkit.getServer().getWorld("" + loc["world"])
     val toReturn = Location(world, 0.0, 0.0, 0.0)
     toReturn.x = (loc["x"] as Int?)!!.toDouble()
@@ -48,7 +48,7 @@ fun deserializeLocation(loc: Map<String?, Any>): Location {
     return toReturn
 }
 
-fun getBlockAtSerializedLocation(loc: Map<String?, Any>): Block {
+fun getBlockAtSerializedLocation(loc: MutableMap<String?, Any>): Block {
     val location = deserializeLocation(loc)
     return location.world!!.getBlockAt(location)
 }
@@ -73,4 +73,10 @@ fun toChestKey(location: Map<String?, Any>): String {
     toReturn += "y" + location["y"]
     toReturn += "z" + location["z"]
     return toReturn
+}
+
+fun abovePlayerHead(location: Location) : Location {
+    val particleLocation = serializeLocation(location)
+    particleLocation["y"] = (particleLocation["y"] as Int + 2)
+    return deserializeLocation(particleLocation)
 }
