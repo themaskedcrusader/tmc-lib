@@ -30,8 +30,6 @@ class SaveFile(plugin: JavaPlugin, fileName: String) {
 
     init {
         saveFile = ConfigAccessor(plugin, fileName)
-//        saveFile.reloadConfig();
-//        saveFile.saveDefaultConfig();
     }
 
     fun getConfig(): FileConfiguration {

@@ -25,12 +25,13 @@ package me.schalk.spigot.lib.config
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
+import org.jetbrains.annotations.NotNull
 import java.io.File
 import java.io.IOException
 import java.io.InputStreamReader
 import java.util.logging.Level
 
-open class ConfigAccessor(plugin: JavaPlugin, fileName: String) {
+open class ConfigAccessor(@NotNull plugin: JavaPlugin, fileName: String) {
 
     private val plugin: JavaPlugin
     private val fileName: String
@@ -38,7 +39,6 @@ open class ConfigAccessor(plugin: JavaPlugin, fileName: String) {
     val config: FileConfiguration
 
     init {
-        requireNotNull(plugin) { "plugin cannot be null" }
         require(plugin.isEnabled) { "plugin must be initialized" }
         this.plugin = plugin
         this.fileName = fileName
